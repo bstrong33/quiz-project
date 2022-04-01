@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Start from './components/Start';
 import Quiz from './components/Quiz';
+import { nanoid } from 'nanoid'
 const axios = require('axios')
 
 function App() {
@@ -25,10 +26,10 @@ function App() {
           let answersArr = dataSet.incorrect_answers.slice()
           answersArr.push(dataSet.correct_answer)
           let finalArr = [
-            {answer: answersArr[0], selected: false, correct: false}, 
-            {answer: answersArr[1], selected: false, correct: false}, 
-            {answer: answersArr[2], selected: false, correct: false}, 
-            {answer: answersArr[3], selected: false, correct: true}
+            {answer: answersArr[0], selected: false, correct: false, id: nanoid()}, 
+            {answer: answersArr[1], selected: false, correct: false, id: nanoid()}, 
+            {answer: answersArr[2], selected: false, correct: false, id: nanoid()}, 
+            {answer: answersArr[3], selected: false, correct: true, id: nanoid()}
           ]
           return shuffle(finalArr)
         })
@@ -52,12 +53,32 @@ function App() {
     console.log(allAnswers)
   }
 
+  function selectAnswer(i, id) {
+    let updatedSelect = allAnswers.slice()
+    // console.log(prevAnswers)
+    let newlySelected = updatedSelect[i].map(answer => {
+      if (answer.id === id) {
+        return {...answer, selected: true}
+      }
+      else {
+        return {...answer}
+      }
+    })
+    // console.log(newlySelected)
+    updatedSelect[i] = [...newlySelected]
+    let updateState = updatedSelect.slice()
+    console.log(updateState)
+    setAllAnswers([...updateState])
+    console.log(allAnswers)
+  }
+
   return (
     <div className="App">
       {takingQuiz ? 
         <Quiz 
           allQuestions={allQuestions}
           allAnswers={allAnswers}
+          selectAnswer={selectAnswer}
         /> : 
         <Start startQuiz={startQuiz}/>}
     </div>

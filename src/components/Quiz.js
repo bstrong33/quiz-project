@@ -4,7 +4,7 @@ function Quiz(props) {
     
         const mappedAnswers = props.allAnswers[index].map(answer => {
             return (
-                <button className="Answers">
+                <button className="Answers" onClick={() => props.selectAnswer(index, answer.id)}>
                     {answer.answer.replace(/[^a-zA-Z ]/g, "")}
                 </button>
             )
