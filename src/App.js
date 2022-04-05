@@ -49,27 +49,19 @@ function App() {
 
   function startQuiz() {
     setTakingQuiz(true)
-    console.log(allQuestions)
-    console.log(allAnswers)
   }
 
   function selectAnswer(i, id) {
-    let updatedSelect = allAnswers.slice()
-    // console.log(prevAnswers)
-    let newlySelected = updatedSelect[i].map(answer => {
+    let updatedAnswers = allAnswers.slice()
+    updatedAnswers[i] = updatedAnswers[i].map(answer => {
       if (answer.id === id) {
         return {...answer, selected: true}
       }
       else {
-        return {...answer}
+        return {...answer, selected: false}
       }
     })
-    // console.log(newlySelected)
-    updatedSelect[i] = [...newlySelected]
-    let updateState = updatedSelect.slice()
-    console.log(updateState)
-    setAllAnswers([...updateState])
-    console.log(allAnswers)
+    setAllAnswers(updatedAnswers)
   }
 
   return (
